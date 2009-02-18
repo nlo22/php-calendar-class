@@ -25,11 +25,20 @@ class Calendar {
 	/**
 	 * Construct
 	 * 
-	 * @param $month Int Month, eg: January = 1
- 	 * @param $year Int Year eg: 2009
+	 * @param $month Int[optional] Month, eg: January = 1
+ 	 * @param $year Int[optional] Year eg: 2009
 	 */
-	function Calendar($month, $year) {
+	function Calendar($month = false, $year = false) {
 		
+		// use current month and year if not supplied
+		if (!$month) {
+			$date = getDate(time());
+			$month = $date['mon'];
+			$year = $date['year'];
+		}
+		
+		// get the this month and next month so we can count the days using begining day of each month
+		// we don't worry about month=13 as mktime() will take care of this
 		$this_month = getDate(mktime(0, 0, 0, $month, 1, $year));
 		$next_month = getDate(mktime(0, 0, 0, $month + 1, 1, $year));
 		
@@ -43,7 +52,7 @@ class Calendar {
 		$this->days = array();
 		
 		// fill in days
-		$week = 0;
+		$week = 1;
 		for($i = 0; $i < $this->days_count+$this->first_day_offset; $i++) {
 			if ($i < $this->first_day_offset) {
 				$this->days[$week][] = null;
