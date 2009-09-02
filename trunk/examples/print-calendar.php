@@ -2,7 +2,7 @@
 
 include('../calendar.class.php');
 
-$cal = new Calendar(1, 2009);
+$cal = new Calendar();
 echo $cal->getMonthHTML();
 
 ?>
